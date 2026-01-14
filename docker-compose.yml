@@ -11,6 +11,7 @@ services:
       - LOG_LEVEL=INFO
     volumes:
       - ./.env:/app/.env:ro
+      - /home/ti_dev/instantclient_23_26:/opt/oracle/instantclient
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]

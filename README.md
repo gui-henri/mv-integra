@@ -49,6 +49,11 @@ uvicorn app.main:app --reload
 
 ### Option 2: Docker
 Build and run with Docker Compose:
+
+**Prerequisites:**
+- Ensure `ORACLE_CLIENT_LIB_DIR` in your `.env` file points to your Oracle Instant Client directory
+- The container will automatically mount this directory for Oracle database connectivity
+
 ```bash
 # Build and start the application
 docker-compose up --build
