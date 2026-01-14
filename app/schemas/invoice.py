@@ -42,9 +42,7 @@ class Invoice(BaseModel):
     cd_paciente: int
     nm_paciente: str
     dt_orcamento: str
-    cd_convenio: int
     nm_convenio: str
-    cd_atendimento: int
     dt_atendimento: str
     dt_alta: Optional[str] = None
     pacote: str = "NÃO"
@@ -73,16 +71,11 @@ class Invoice(BaseModel):
 
     @property
     def duration_days(self) -> int:
-        try:
-            dt_atd = datetime.fromisoformat(str(self.dt_atendimento).replace(' ', 'T')) if self.dt_atendimento else None
-            dt_alt = datetime.fromisoformat(str(self.dt_alta).replace(' ', 'T')) if self.dt_alta else datetime.now()
-        except:
-             return 1
-             
-        if dt_atd and dt_alt:
-            delta = (dt_alt - dt_atd).days
-            return delta if delta > 0 else 1
-        return 1
+        total_days = 0
+        for item in self.items:
+            if item.grupo_procedimento == "DIARIAS":
+                total_days += int(item.quantidade)
+        return total_days if total_days > 0 else 1
 
     def custos_mv(self, categoria: str):
         total = 0.0

@@ -26,14 +26,15 @@ def get_rentability(
                         O.DT_ORCAMENTO,
                         C.NM_CONVENIO,
                         A.DT_ATENDIMENTO,
-                        A.DT_ALTA -- pode não existir
+                        A.DT_ALTA
                     FROM dbamv.ORCAMENTO_HOCA O
                     JOIN dbamv.PACIENTE P ON O.CD_PACIENTE = P.CD_PACIENTE
                     JOIN dbamv.CONVENIO C ON O.CD_CONVENIO = C.CD_CONVENIO
                     JOIN dbamv.ATENDIME A ON O.CD_ATENDIMENTO = A.CD_ATENDIMENTO
-                    WHERE O.CD_ORCAMENTO = :cd_orcamento;
+                    WHERE O.CD_ORCAMENTO = :cd_orcamento
                 """
         cursor.execute(queryHeader, cd_orcamento=cd_orcamento)
+        logger.info(f"Executing query: {queryHeader} with cd_orcamento={cd_orcamento}")
         resultHeader = cursor.fetchall()
         
         # Gets the items of the invoice
@@ -53,24 +54,25 @@ def get_rentability(
                         INNER JOIN
                             dbamv.GRU_PRO G ON P.CD_GRU_PRO = G.CD_GRU_PRO
                         WHERE
-                            I.CD_ORCAMENTO = :cd_orcamento;
+                            I.CD_ORCAMENTO = :cd_orcamento
                     """
         cursor.execute(queryItems, cd_orcamento=cd_orcamento)
+        logger.info(f"Executing query: {queryItems} with cd_orcamento={cd_orcamento}")
         resultItems = cursor.fetchall()
 
         if not resultHeader:
              raise HTTPException(status_code=404, detail="Orcamento not found")
 
+        logger.info("Generating invoice data structure")
+        
         invoice = Invoice(
             cd_orcamento=resultHeader[0][0],
             cd_paciente=resultHeader[0][1],
             nm_paciente=str(resultHeader[0][2]),
             dt_orcamento=str(resultHeader[0][3]),
-            cd_convenio=resultHeader[0][4],
-            nm_convenio=str(resultHeader[0][5]),
-            cd_atendimento=resultHeader[0][6],
-            dt_atendimento=str(resultHeader[0][7]) if resultHeader[0][7] else "",
-            dt_alta=str(resultHeader[0][8]) if resultHeader[0][8] else None,
+            nm_convenio=str(resultHeader[0][4]),
+            dt_atendimento=str(resultHeader[0][5]) if resultHeader[0][5] else "",
+            dt_alta=str(resultHeader[0][6]) if resultHeader[0][6] else None,
             items=[InvoiceItem(
                 descricao=str(item[1] or ""),
                 quantidade=float(item[2] or 0.0),

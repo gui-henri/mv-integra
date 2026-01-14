@@ -132,13 +132,13 @@ def calculate_profitability(invoice: Invoice) -> InvoiceProfitabilityResponse:
         
         cat_result = CategoryResult(
             grupo_procedimento=item["grupo_procedimento"],
-            receita_bruta=item["receita_bruta"],
-            receita_liquida=item["receita_liquida"],
-            custos_mv=item["custos_mv"],
-            custos_fixos=item["custos_fixos"],
-            margem_bruta=mb,
-            impostos=imposto_item,
-            margem_liquida=ml
+            receita_bruta=round(item["receita_bruta"], 2),
+            receita_liquida=round(item["receita_liquida"], 2),
+            custos_mv=round(item["custos_mv"], 2),
+            custos_fixos=round(item["custos_fixos"], 2),
+            margem_bruta=round(mb, 2),
+            impostos=round(imposto_item, 2),
+            margem_liquida=round(ml, 2)
         )
         category_results_objects.append(cat_result)
         
@@ -149,12 +149,12 @@ def calculate_profitability(invoice: Invoice) -> InvoiceProfitabilityResponse:
 
     return InvoiceProfitabilityResponse(
         category_results=category_results_objects,
-        total_receita_bruta=total_receita_bruta,
-        total_receita_liquida=total_receita_liquida,
-        total_custos_mv=total_custos_mv,
-        total_custos_fixos=total_custos_fixos_sum,
-        total_margem_bruta=total_margem_bruta,
-        total_impostos=total_impostos,
-        total_margem_liquida=total_margem_liquida,
-        rentabilidade=rentabilidade
+        total_receita_bruta=round(total_receita_bruta,2),
+        total_receita_liquida=round(total_receita_liquida,2),
+        total_custos_mv=round(total_custos_mv,2),
+        total_custos_fixos=round(total_custos_fixos_sum,2),
+        total_margem_bruta=round(total_margem_bruta,2),
+        total_impostos=round(total_impostos,2),
+        total_margem_liquida=round(total_margem_liquida,2),
+        rentabilidade=round(rentabilidade,2)
     )
