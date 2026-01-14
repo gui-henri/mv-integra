@@ -41,9 +41,23 @@ A Python FastAPI application designed to integrate with the MV system (Oracle SQ
 
 ## Running the Application
 
+### Option 1: Local Development
 Start the server using `uvicorn`:
 ```bash
 uvicorn app.main:app --reload
+```
+
+### Option 2: Docker
+Build and run with Docker Compose:
+```bash
+# Build and start the application
+docker-compose up --build
+
+# Or run in background
+docker-compose up -d --build
+
+# Stop the application
+docker-compose down
 ```
 
 The API will be available at `http://localhost:8000`.
