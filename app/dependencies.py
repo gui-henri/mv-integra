@@ -8,6 +8,7 @@ def get_db_connection() -> Generator[oracledb.Connection, None, None]:
     try:
         logger.debug("Attempting to connect to Oracle DB...")
         # explicitly enabling thin mode (default in 2.0+, but good to be explicit or leave default)
+        logger.info(f"Oracle Client Lib Dir: {settings.ORACLE_CLIENT_LIB_DIR}")
         oracledb.init_oracle_client(
             lib_dir=settings.ORACLE_CLIENT_LIB_DIR
         )
