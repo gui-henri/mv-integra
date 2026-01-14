@@ -9,9 +9,11 @@ services:
       - .env
     environment:
       - LOG_LEVEL=INFO
+      - LD_LIBRARY_PATH=/opt/oracle/instantclient:$LD_LIBRARY_PATH
+      - ORACLE_CLIENT_LIB_DIR=/opt/oracle/instantclient
     volumes:
       - ./.env:/app/.env:ro
-      - /home/ti_dev/instantclient_23_26:/opt/oracle/instantclient
+      - /home/ti_dev/instantclient_23_26:/opt/oracle/instantclient:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
