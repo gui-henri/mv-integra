@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install system dependencies for Oracle client
 RUN apt-get update && apt-get install -y \
-    libaio1 \
+    libaio1t64 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
