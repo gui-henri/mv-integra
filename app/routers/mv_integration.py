@@ -24,13 +24,10 @@ def get_rentability(
                         P.CD_PACIENTE,
                         P.NM_PACIENTE,
                         O.DT_ORCAMENTO,
-                        C.NM_CONVENIO,
-                        A.DT_ATENDIMENTO,
-                        A.DT_ALTA
+                        C.NM_CONVENIO
                     FROM dbamv.ORCAMENTO_HOCA O
                     JOIN dbamv.PACIENTE P ON O.CD_PACIENTE = P.CD_PACIENTE
                     JOIN dbamv.CONVENIO C ON O.CD_CONVENIO = C.CD_CONVENIO
-                    JOIN dbamv.ATENDIME A ON O.CD_ATENDIMENTO = A.CD_ATENDIMENTO
                     WHERE O.CD_ORCAMENTO = :cd_orcamento
                 """
         cursor.execute(queryHeader, cd_orcamento=cd_orcamento)
@@ -71,8 +68,6 @@ def get_rentability(
             nm_paciente=str(resultHeader[0][2]),
             dt_orcamento=str(resultHeader[0][3]),
             nm_convenio=str(resultHeader[0][4]),
-            dt_atendimento=str(resultHeader[0][5]) if resultHeader[0][5] else "",
-            dt_alta=str(resultHeader[0][6]) if resultHeader[0][6] else None,
             items=[InvoiceItem(
                 descricao=str(item[1] or ""),
                 quantidade=float(item[2] or 0.0),

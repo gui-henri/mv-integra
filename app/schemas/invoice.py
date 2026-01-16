@@ -43,8 +43,6 @@ class Invoice(BaseModel):
     nm_paciente: str
     dt_orcamento: str
     nm_convenio: str
-    dt_atendimento: str
-    dt_alta: Optional[str] = None
     pacote: str = "NÃO"
     items: list[InvoiceItem]
 
